@@ -1,13 +1,14 @@
 package sfgpetclinic.bootstrap;
 
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.web.reactive.filter.OrderedWebFilter;
+import org.springframework.stereotype.Component;
 import springframework.sfgpetclinic.model.Owner;
 import springframework.sfgpetclinic.model.Vet;
 import springframework.sfgpetclinic.services.map.OwnerServiceMap;
 import springframework.sfgpetclinic.services.map.PetServiceMap;
 import springframework.sfgpetclinic.services.map.VetServiceMap;
 
+@Component
 public class DataLoader implements CommandLineRunner {
 
     public final OwnerServiceMap ownerServiceMap;
