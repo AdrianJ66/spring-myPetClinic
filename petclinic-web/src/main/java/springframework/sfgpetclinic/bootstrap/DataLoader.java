@@ -1,4 +1,4 @@
-package sfgpetclinic.bootstrap;
+package springframework.sfgpetclinic.bootstrap;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,9 +14,9 @@ public class DataLoader implements CommandLineRunner {
     public final OwnerServiceMap ownerServiceMap;
     public final VetServiceMap vetServiceMap;
 
-    public DataLoader() {
-        this.ownerServiceMap = new OwnerServiceMap();
-        this.vetServiceMap = new VetServiceMap();
+    public DataLoader(OwnerServiceMap ownerServiceMap, VetServiceMap vetServiceMap) {
+        this.ownerServiceMap = ownerServiceMap;
+        this.vetServiceMap = vetServiceMap;
     }
 
     @Override
@@ -25,25 +25,25 @@ public class DataLoader implements CommandLineRunner {
         Owner o1 = new Owner();
         o1.setFirstName("Marek");
         o1.setLastName("Komasa");
-        o1.setId(1L);
+//        o1.setId(1L);
         ownerServiceMap.save(o1);
 
         Owner o2 = new Owner();
         o2.setFirstName("Juliusz");
         o2.setLastName("Czarnecki");
-        o2.setId(2L);
+//        o2.setId(2L);
         ownerServiceMap.save(o2);
 
         Vet v1 = new Vet();
         v1.setFirstName("Jan");
         v1.setLastName("Popek");
-        v1.setId(1L);
+ //       v1.setId(1L);
         vetServiceMap.save(v1);
 
         Vet v2 = new Vet();
         v2.setFirstName("Korneliusz");
         v2.setLastName("Knot");
-        v2.setId(2L);
+  //      v2.setId(2L);
         vetServiceMap.save(v2);
 
         System.out.println("Loaded bootstrap data...");
