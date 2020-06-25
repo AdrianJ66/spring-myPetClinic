@@ -2,12 +2,24 @@ package springframework.sfgpetclinic.services.map;
 
 import org.springframework.stereotype.Service;
 import springframework.sfgpetclinic.model.Owner;
+import springframework.sfgpetclinic.model.Pet;
 import springframework.sfgpetclinic.services.OwnerService;
+import springframework.sfgpetclinic.services.PetService;
+import springframework.sfgpetclinic.services.PetTypeService;
 
 import java.util.Set;
 
 @Service
 public class OwnerServiceMap extends AbstactMapService<Owner, Long> implements OwnerService {
+
+    PetTypeService petTypeService;
+    PetService petService;
+
+    public OwnerServiceMap(PetTypeService petTypeService, PetService petService) {
+        this.petTypeService = petTypeService;
+        this.petService = petService;
+    }
+
     @Override
     public Set<Owner> findAll() {
         return super.findAll();
@@ -20,7 +32,33 @@ public class OwnerServiceMap extends AbstactMapService<Owner, Long> implements O
 
     @Override
     public Owner save(Owner owner) {
-        return super.save(owner);
+
+        if (owner != null) {
+            if(owner.getPets() != null){
+                owner.getPets().forEach(pet -> {
+                    if ( pet.getPetType() != null){
+                        if (pet.getPetType().getId() == null) {
+                            pet.setPetType(petTypeService.save(pet.getPetType()));
+                        }
+                    }
+                    else {
+                        throw new RuntimeException("PetType value cannot be null");
+                    }
+
+                    if (pet.getId() == null){
+                        Pet savedPet = petService.save(pet);
+                        pet.setId(savedPet.getId());
+                    }
+                });
+            }
+
+            return super.save(owner);
+        }
+        else{
+            return null;
+        }
+
+
     }
 
     @Override
