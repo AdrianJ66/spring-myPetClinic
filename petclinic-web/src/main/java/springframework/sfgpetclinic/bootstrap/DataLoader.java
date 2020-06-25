@@ -3,27 +3,27 @@ package springframework.sfgpetclinic.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import springframework.sfgpetclinic.model.*;
-import springframework.sfgpetclinic.services.PetTypeService;
-import springframework.sfgpetclinic.services.SpecialtyService;
-import springframework.sfgpetclinic.services.map.OwnerServiceMap;
-import springframework.sfgpetclinic.services.map.SpecialtyServiceMap;
-import springframework.sfgpetclinic.services.map.VetServiceMap;
+import springframework.sfgpetclinic.services.*;
 
 import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    public final OwnerServiceMap ownerServiceMap;
-    public final VetServiceMap vetServiceMap;
+    public final OwnerService ownerService;
+    public final VetService vetService;
     public final PetTypeService petTypeService;
-    public final SpecialtyServiceMap specialtyService;
+    public final SpecialtyService specialtyService;
+    public final VisitService visitService;
+    public final PetService petService;
 
-    public DataLoader(OwnerServiceMap ownerServiceMap, VetServiceMap vetServiceMap, PetTypeService petTypeService, SpecialtyServiceMap specialtyService) {
-        this.ownerServiceMap = ownerServiceMap;
-        this.vetServiceMap = vetServiceMap;
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService, PetService petService) {
+        this.ownerService = ownerService;
+        this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
+        this.petService = petService;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class DataLoader implements CommandLineRunner {
         o1.setAddress("Warszawska 1");
         o1.setCity("Kraków");
         o1.setTelephone("123546547");
-        ownerServiceMap.save(o1);
+        ownerService.save(o1);
 
         Owner o2 = new Owner();
         o2.setFirstName("Juliusz");
@@ -73,7 +73,7 @@ public class DataLoader implements CommandLineRunner {
         o2.setAddress("Kurnicka 33");
         o2.setCity("Oświęcim");
         o2.setTelephone("465467123");
-        ownerServiceMap.save(o2);
+        ownerService.save(o2);
 
         Pet adriansPet = new Pet();
         adriansPet.setOwner(o1);
@@ -81,30 +81,39 @@ public class DataLoader implements CommandLineRunner {
         adriansPet.setName("Czaruś");
         adriansPet.setPetType(savedDogType);
         o1.getPets().add(adriansPet);
+        petService.save(adriansPet);
+
 
         Pet szymeksCat = new Pet();
         szymeksCat.setName("Czaruśka");
         szymeksCat.setBirthDate(LocalDate.of(2010, 3, 13));
         szymeksCat.setOwner(o2);
         szymeksCat.setPetType(savedCatType);
+        petService.save(szymeksCat);
+
+        Visit catVisit = new Visit();
+        catVisit.setPet(szymeksCat);
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("Wizyta u kota jak dalmatynczyka");
+        visitService.save(catVisit);
 
         Vet v1 = new Vet();
         v1.setFirstName("Jan");
         v1.setLastName("Popek");
         v1.getSpecialties().add(radiology);
-        vetServiceMap.save(v1);
+        vetService.save(v1);
 
         Vet v2 = new Vet();
         v2.setFirstName("Korneliusz");
         v2.setLastName("Knot");
         v2.getSpecialties().add(surgery);
-        vetServiceMap.save(v2);
+        vetService.save(v2);
 
         Vet v3 = new Vet();
         v3.setFirstName("Stefan");
         v3.setLastName("Burczymucha");
         v3.getSpecialties().add(dentistry);
-        vetServiceMap.save(v3);
+        vetService.save(v3);
 
         System.out.println("Loaded bootstrap data...");
     }
