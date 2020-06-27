@@ -80,6 +80,11 @@
         </dependency>
         <!-- end of webjars -->
 
+<!--        <dependency>-->
+<!--        <groupId>org.projectlombok</groupId>-->
+<!--        <artifactId>lombok</artifactId>-->
+<!--        <optional>true</optional>-->
+<!--        </dependency>-->
     </dependencies>
 
 
