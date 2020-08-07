@@ -75,6 +75,14 @@ public class DataLoader implements CommandLineRunner {
         o2.setTelephone("465467123");
         ownerService.save(o2);
 
+        Owner o3 = new Owner();
+        o3.setFirstName("Janek");
+        o3.setLastName("Komasa");
+        o3.setAddress("Krakowska 31");
+        o3.setCity("Lwów");
+        o3.setTelephone("456234123");
+        ownerService.save(o3);
+
         Pet adriansPet = new Pet();
         adriansPet.setOwner(o1);
         adriansPet.setBirthDate(LocalDate.of(2003, 11, 2));
@@ -88,8 +96,12 @@ public class DataLoader implements CommandLineRunner {
         szymeksCat.setName("Czaruśka");
         szymeksCat.setBirthDate(LocalDate.of(2010, 3, 13));
         szymeksCat.setOwner(o2);
+        o2.getPets().add(szymeksCat);
+        o3.getPets().add(szymeksCat);
         szymeksCat.setPetType(savedCatType);
         petService.save(szymeksCat);
+        ownerService.save(o2);
+        ownerService.save(o3);
 
         Visit catVisit = new Visit();
         catVisit.setPet(szymeksCat);

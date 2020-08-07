@@ -8,6 +8,7 @@ import springframework.sfgpetclinic.services.OwnerService;
 import springframework.sfgpetclinic.services.PetService;
 import springframework.sfgpetclinic.services.PetTypeService;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -80,5 +81,11 @@ public class OwnerServiceMap extends AbstactMapService<Owner, Long> implements O
                 .filter(owner -> owner.getLastName().equals(lastName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Owner> findAllByLastNameLike(String lastName) {
+        //TODO
+        return null;
     }
 }
